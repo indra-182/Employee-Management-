@@ -1,51 +1,6 @@
 import { Injectable, signal } from '@angular/core';
-import { Employees, GROUPS } from '@app/shared/models/employees';
-
-const FIRST_NAMES = [
-  'Ahmad',
-  'Muhammad',
-  'Agus',
-  'Budi',
-  'Andi',
-  'Siti',
-  'Sri',
-  'Dewi',
-  'Rina',
-  'Rizky',
-  'Dian',
-  'Ratu',
-  'Rizal',
-  'Yusuf',
-  'Hendra',
-  'Tri',
-  'Wahyu',
-  'Maya',
-  'Rizki',
-  'Farah',
-];
-
-const LAST_NAMES = [
-  'Santoso',
-  'Suryadi',
-  'Wijaya',
-  'Pratama',
-  'Putri',
-  'Nugroho',
-  'Hidayat',
-  'Susanto',
-  'Kusuma',
-  'Wibowo',
-  'Irawan',
-  'Kurniawan',
-  'Prasetyo',
-  'Ramadhan',
-  'Setiadi',
-  'Gunawan',
-  'Siregar',
-  'Nasution',
-  'Tanjung',
-  'Halim',
-];
+import { Employees } from '@app/shared/models/employees';
+import { FIRST_NAMES, GROUPS, LAST_NAMES } from '@app/utils/constants';
 
 function generateEmployees(): Employees[] {
   const employees: Employees[] = [];

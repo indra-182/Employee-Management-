@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { GROUPS } from '@app/shared/models/employees';
+import { GROUPS } from '@app/utils/constants';
 import { EmployeeService } from '@app/services/employee/employee.service';
 import { ToastrService } from '@app/services/toastr/toastr.service';
 

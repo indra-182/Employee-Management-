@@ -9,16 +9,3 @@ export interface Employees {
   group: string;
   description: string;
 }
-
-export const GROUPS = [
-  'Engineering',
-  'Marketing',
-  'Finance',
-  'Human Resources',
-  'Sales',
-  'Operations',
-  'Legal',
-  'Customer Support',
-  'Product',
-  'Design',
-];
