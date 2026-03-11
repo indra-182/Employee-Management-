@@ -13,12 +13,12 @@ export const routes: Routes = [
       {
         path: '',
         loadComponent: () =>
-          import('@app/features/employees/list/employees-list').then((p) => p.EmployeeList),
+          import('@/app/features/employee/list/employee-list').then((p) => p.EmployeeList),
       },
       {
         path: ':username',
         loadComponent: () =>
-          import('@app/features/employees/detail/employees-detail').then((p) => p.EmployeeDetail),
+          import('@/app/features/employee/detail/employee-detail').then((p) => p.EmployeeDetail),
       },
     ],
   },

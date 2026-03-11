@@ -1,13 +1,13 @@
 import { Component, computed, inject, signal, OnDestroy } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Employees } from '@app/shared/models/employees';
-import { EmployeeService } from '@app/services/employees/employees.service';
+import { EmployeeService } from '@/app/services/employee/employee.service';
 import { NotificationService } from '@app/services/notifications/notifications.service';
 
 @Component({
-  selector: 'app-employees-list',
+  selector: 'app-employee-list',
   imports: [RouterLink],
-  templateUrl: './employees-list.html',
+  templateUrl: './employee-list.html',
 })
 export class EmployeeList implements OnDestroy {
   private employeeService = inject(EmployeeService);
