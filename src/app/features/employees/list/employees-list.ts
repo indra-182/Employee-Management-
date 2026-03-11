@@ -5,7 +5,7 @@ import { EmployeeService } from '@app/services/employees/employees.service';
 import { NotificationService } from '@app/services/notifications/notifications.service';
 
 @Component({
-  selector: 'app-employee-list',
+  selector: 'app-employees-list',
   imports: [RouterLink],
   templateUrl: './employees-list.html',
 })

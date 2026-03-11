@@ -117,16 +117,16 @@
             <td class="px-5 py-4 text-slate-300 text-xs font-mono">{{ from() + $index }}</td>
             <td class="px-5 py-4">
               <div class="flex items-center gap-3">
-                <div
-                  class="w-8 h-8 rounded-full bg-violet-100 text-violet-600 flex items-center justify-center text-xs font-bold shrink-0"
-                >
-                  {{ emp.firstName[0] }}{{ emp.lastName[0] }}
-                </div>
                 <div>
                   <p class="font-semibold text-slate-800 text-sm">
-                    {{ emp.firstName }} {{ emp.lastName }}
+                    <a
+                      [routerLink]="['/employees', emp.username]"
+                      (click)="$event.stopPropagation()"
+                      class="inline-block bg-violet-50 text-violet-700 px-2 py-0.5 rounded-md hover:bg-violet-100 focus:outline-none focus:ring-2 focus:ring-violet-200 transition"
+                    >
+                      {{ emp.firstName }} {{ emp.lastName }}
+                    </a>
                   </p>
-                  <p class="text-slate-400 text-xs">&#64;{{ emp.username }}</p>
                 </div>
               </div>
             </td>
