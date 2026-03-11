@@ -1,0 +1,217 @@
+<div class="p-5 md:p-8 max-w-7xl mx-auto">
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+    <div>
+      <h1 class="text-2xl font-bold text-slate-900">Employees</h1>
+      <p class="text-slate-500 text-sm mt-0.5">{{ totalItems() }} total employees</p>
+    </div>
+    <a
+      routerLink="/employees/add"
+      class="inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition shadow-sm cursor-pointer"
+    >
+      <span class="text-base leading-none">+</span> Add Employee
+    </a>
+  </div>
+
+  <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 mb-5">
+    <div class="flex flex-col sm:flex-row gap-3">
+      <div class="relative flex-1">
+        <svg
+          class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"
+          />
+        </svg>
+        <input
+          type="text"
+          [value]="searchInput()"
+          (input)="onSearchName($event)"
+          placeholder="Search by name..."
+          class="w-full pl-9 pr-4 py-2.5 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none transition text-sm"
+        />
+      </div>
+      <select
+        [value]="searchStatus()"
+        (change)="onSearchStatus($event)"
+        class="px-4 py-2.5 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none transition text-sm text-slate-700"
+      >
+        <option value="">All Status</option>
+        <option value="Active">Active</option>
+        <option value="Inactive">Inactive</option>
+      </select>
+      <div class="flex items-center gap-2 text-sm text-slate-500 border-l border-slate-200 pl-3">
+        <span>Show</span>
+        <select
+          [value]="pageSize()"
+          (change)="onPageSize($event)"
+          class="px-2.5 py-2 border border-slate-200 rounded-lg bg-slate-50 focus:ring-2 focus:ring-violet-500 outline-none text-sm text-slate-700"
+        >
+          <option value="10">10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="overflow-x-auto bg-white rounded-2xl border border-slate-200 shadow-sm">
+    <table class="w-full text-left text-sm">
+      <thead>
+        <tr class="border-b border-slate-100">
+          <th
+            class="px-5 py-3.5 text-xs font-semibold text-slate-400 uppercase tracking-wider w-12"
+          >
+            No
+          </th>
+          <th
+            class="px-5 py-3.5 text-xs font-semibold text-slate-400 uppercase tracking-wider cursor-pointer select-none whitespace-nowrap hover:text-slate-700 transition"
+            (click)="toggleSort('firstName')"
+          >
+            <span class="flex items-center gap-1"
+              >Name <span class="opacity-60">{{ sortIcon('firstName') }}</span></span
+            >
+          </th>
+          <th
+            class="px-5 py-3.5 text-xs font-semibold text-slate-400 uppercase tracking-wider cursor-pointer select-none whitespace-nowrap hover:text-slate-700 transition"
+            (click)="toggleSort('email')"
+          >
+            <span class="flex items-center gap-1"
+              >Email <span class="opacity-60">{{ sortIcon('email') }}</span></span
+            >
+          </th>
+          <th
+            class="px-5 py-3.5 text-xs font-semibold text-slate-400 uppercase tracking-wider cursor-pointer select-none whitespace-nowrap hover:text-slate-700 transition"
+            (click)="toggleSort('status')"
+          >
+            <span class="flex items-center gap-1"
+              >Status <span class="opacity-60">{{ sortIcon('status') }}</span></span
+            >
+          </th>
+          <th
+            class="px-5 py-3.5 text-xs font-semibold text-slate-400 uppercase tracking-wider cursor-pointer select-none whitespace-nowrap hover:text-slate-700 transition"
+            (click)="toggleSort('group')"
+          >
+            <span class="flex items-center gap-1"
+              >Group <span class="opacity-60">{{ sortIcon('group') }}</span></span
+            >
+          </th>
+          <th class="px-5 py-3.5 text-xs font-semibold text-slate-400 uppercase tracking-wider">
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-50">
+        @for (emp of paged(); track emp.username) {
+          <tr
+            class="hover:bg-violet-50/40 cursor-pointer transition group"
+            (click)="viewDetail(emp)"
+          >
+            <td class="px-5 py-4 text-slate-300 text-xs font-mono">{{ from() + $index }}</td>
+            <td class="px-5 py-4">
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-8 h-8 rounded-full bg-violet-100 text-violet-600 flex items-center justify-center text-xs font-bold shrink-0"
+                >
+                  {{ emp.firstName[0] }}{{ emp.lastName[0] }}
+                </div>
+                <div>
+                  <p class="font-semibold text-slate-800 text-sm">
+                    {{ emp.firstName }} {{ emp.lastName }}
+                  </p>
+                  <p class="text-slate-400 text-xs">&#64;{{ emp.username }}</p>
+                </div>
+              </div>
+            </td>
+            <td class="px-5 py-4 text-slate-500 text-sm">{{ emp.email }}</td>
+            <td class="px-5 py-4">
+              <span
+                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold"
+                [class.bg-emerald-50]="emp.status === 'Active'"
+                [class.text-emerald-700]="emp.status === 'Active'"
+                [class.bg-slate-100]="emp.status !== 'Active'"
+                [class.text-slate-500]="emp.status !== 'Active'"
+              >
+                <span
+                  class="w-1.5 h-1.5 rounded-full"
+                  [class.bg-emerald-500]="emp.status === 'Active'"
+                  [class.bg-slate-400]="emp.status !== 'Active'"
+                ></span>
+                {{ emp.status }}
+              </span>
+            </td>
+            <td class="px-5 py-4">
+              <span
+                class="text-xs font-medium text-slate-600 bg-slate-100 px-2.5 py-1 rounded-lg"
+                >{{ emp.group }}</span
+              >
+            </td>
+            <td class="px-5 py-4 whitespace-nowrap">
+              <button
+                (click)="onEdit($event, emp)"
+                class="inline-flex items-center gap-1 text-xs font-semibold text-amber-600 bg-amber-50 hover:bg-amber-100 px-3 py-1.5 rounded-lg mr-2 transition cursor-pointer"
+              >
+                Edit
+              </button>
+              <button
+                (click)="onDelete($event, emp)"
+                class="inline-flex items-center gap-1 text-xs font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-lg transition cursor-pointer"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="px-5 py-16 text-center">
+              <p class="text-slate-400 text-sm">No employees found</p>
+              <p class="text-slate-300 text-xs mt-1">Try adjusting your search filters</p>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="flex flex-col sm:flex-row justify-between items-center mt-4 gap-4">
+    <span class="text-slate-400 text-xs"
+      >Showing {{ from() }}–{{ to() }} of {{ totalItems() }} entries</span
+    >
+    <div class="flex gap-1">
+      <button
+        (click)="goToPage(currentPage() - 1)"
+        [disabled]="currentPage() === 1"
+        class="px-3.5 py-1.5 rounded-lg border border-slate-200 text-slate-500 text-xs font-medium disabled:opacity-30 hover:bg-slate-50 transition cursor-pointer disabled:cursor-default"
+      >
+        ← Prev
+      </button>
+      @for (page of visiblePages(); track page) {
+        <button
+          (click)="goToPage(page)"
+          class="w-8 h-8 rounded-lg text-xs font-semibold transition cursor-pointer"
+          [class.bg-violet-600]="page === currentPage()"
+          [class.text-white]="page === currentPage()"
+          [class.shadow-sm]="page === currentPage()"
+          [class.text-slate-600]="page !== currentPage()"
+          [class.hover:bg-slate-100]="page !== currentPage()"
+        >
+          {{ page }}
+        </button>
+      }
+      <button
+        (click)="goToPage(currentPage() + 1)"
+        [disabled]="currentPage() === totalPages()"
+        class="px-3.5 py-1.5 rounded-lg border border-slate-200 text-slate-500 text-xs font-medium disabled:opacity-30 hover:bg-slate-50 transition cursor-pointer disabled:cursor-default"
+      >
+        Next →
+      </button>
+    </div>
+  </div>
+</div>
