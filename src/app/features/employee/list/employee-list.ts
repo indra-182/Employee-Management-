@@ -14,7 +14,7 @@ export class EmployeeList implements OnDestroy {
   private toastr = inject(ToastrService);
   private router = inject(Router);
   private searchDebounceTimer: ReturnType<typeof setTimeout> | null = null;
-  private debounceMs = 300; // ms
+  private debounceTimer = 300; // ms
 
   filters = signal({
     searchName: this.employeeService.filterSearchState().name,
@@ -90,7 +90,7 @@ export class EmployeeList implements OnDestroy {
       this.filters.update((f) => ({ ...f, searchName: val }));
       this.saveFilters();
       this.searchDebounceTimer = null;
-    }, this.debounceMs);
+    }, this.debounceTimer);
   }
 
   ngOnDestroy(): void {
