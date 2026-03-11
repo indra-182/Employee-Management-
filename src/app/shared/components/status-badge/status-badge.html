@@ -1,0 +1,14 @@
+<span
+  class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold"
+  [class.bg-emerald-50]="status() === 'Active'"
+  [class.text-emerald-700]="status() === 'Active'"
+  [class.bg-slate-100]="status() !== 'Active'"
+  [class.text-slate-500]="status() !== 'Active'"
+>
+  <span
+    class="w-1.5 h-1.5 rounded-full"
+    [class.bg-emerald-500]="status() === 'Active'"
+    [class.bg-slate-400]="status() !== 'Active'"
+  ></span>
+  {{ status() }}
+</span>

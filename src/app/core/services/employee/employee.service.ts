@@ -1,21 +1,14 @@
 import { Injectable, signal } from '@angular/core';
-import { Employees } from '@app/shared/models/employee';
+import { Employee, FilterSearch } from '@app/shared/models/employee';
 import { FIRST_NAMES, GROUPS, LAST_NAMES } from '@app/shared/utils/constants';
 
-export interface FilterSearch {
-  name: string;
-  status: string;
-  sortColumn: string;
-  sortDirection: 'asc' | 'desc';
-  currentPage: number;
-  pageSize: number;
-}
+function generateEmployees(): Employee[] {
+  const employees: Employee[] = [];
 
-function generateEmployees(): Employees[] {
-  const employees: Employees[] = [];
   for (let i = 0; i < 100; i++) {
     const firstName = FIRST_NAMES[i % 20];
     const lastName = LAST_NAMES[Math.floor(i / 20)];
+
     employees.push({
       username: `${firstName.toLowerCase()}.${lastName.toLowerCase()}${i}`,
       firstName,
@@ -28,12 +21,14 @@ function generateEmployees(): Employees[] {
       description: `Employee ${firstName} ${lastName} in the ${GROUPS[i % GROUPS.length]} department.`,
     });
   }
+
   return employees;
 }
 
 @Injectable({ providedIn: 'root' })
 export class EmployeeService {
-  private readonly employees = signal<Employees[]>(generateEmployees());
+  private readonly employees = signal<Employee[]>(generateEmployees());
+
   readonly filterSearchState = signal<FilterSearch>({
     name: '',
     status: '',
@@ -43,19 +38,19 @@ export class EmployeeService {
     pageSize: 10,
   });
 
-  getAll(): Employees[] {
+  getAll(): Employee[] {
     return this.employees();
   }
 
-  getByUsername(username: string): Employees | undefined {
+  getByUsername(username: string): Employee | undefined {
     return this.employees().find((e) => e.username === username);
   }
 
-  add(employee: Employees): void {
+  add(employee: Employee): void {
     this.employees.update((list) => [...list, employee]);
   }
 
-  saveListState(state: FilterSearch): void {
+  saveFilterSearch(state: FilterSearch): void {
     this.filterSearchState.set(state);
   }
 }

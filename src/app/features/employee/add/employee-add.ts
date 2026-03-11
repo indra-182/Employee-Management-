@@ -3,13 +3,14 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { GROUPS } from '@app/shared/utils/constants';
 import { EmployeeService } from '@app/core/services/employee/employee.service';
-import { ToastrService } from '@app/core/services/toastr/toastr.service';
+import { ToastrService } from 'ngx-toastr';
 import { pastDateValidator } from '@app/shared/utils/functions';
 import { ConfirmDialog } from '@app/shared/components/confirm-dialog/confirm-dialog';
+import { FormField } from '@app/shared/components/form-field/form-field';
 
 @Component({
   selector: 'app-employee-add',
-  imports: [ReactiveFormsModule, RouterLink, ConfirmDialog],
+  imports: [ReactiveFormsModule, RouterLink, ConfirmDialog, FormField],
   templateUrl: './employee-add.html',
 })
 export class EmployeeAdd {
@@ -33,15 +34,13 @@ export class EmployeeAdd {
   groupSearch = signal('');
   groupDropdownOpen = signal(false);
   showConfirm = signal(false);
+  salaryDisplay = signal('');
+  today = new Date().toISOString().split('T')[0];
 
   filteredGroups = computed(() => {
     const query = this.groupSearch().toLowerCase();
     return query ? GROUPS.filter((g) => g.toLowerCase().includes(query)) : GROUPS;
   });
-
-  today = new Date().toISOString().split('T')[0];
-
-  salaryDisplay = signal('');
 
   onSalaryInput(event: Event): void {
     const raw = (event.target as HTMLInputElement).value.replace(/\D/g, '');
@@ -62,7 +61,7 @@ export class EmployeeAdd {
   }
 
   toggleGroupDropdown(): void {
-    this.groupDropdownOpen.update((v) => !v);
+    this.groupDropdownOpen.update((open) => !open);
   }
 
   onSave(): void {
@@ -75,18 +74,9 @@ export class EmployeeAdd {
 
   confirmSave(): void {
     this.showConfirm.set(false);
-    const v = this.form.getRawValue();
-    this.employeeService.add({
-      username: v.username,
-      firstName: v.firstName,
-      lastName: v.lastName,
-      email: v.email,
-      birthDate: new Date(v.birthDate),
-      basicSalary: v.basicSalary,
-      status: v.status,
-      group: v.group,
-      description: v.description,
-    });
+
+    const formValue = this.form.getRawValue();
+    this.employeeService.add({ ...formValue, birthDate: new Date(formValue.birthDate) });
 
     this.toastr.success('Employee added successfully');
     this.router.navigate(['/employees']);

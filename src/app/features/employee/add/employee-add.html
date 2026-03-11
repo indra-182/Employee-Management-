@@ -15,110 +15,78 @@
       <h2 class="text-sm font-semibold text-slate-700 uppercase tracking-wider mb-5">
         Personal Information
       </h2>
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5"
-            >Username <span class="text-rose-500">*</span></label
-          >
+        <app-form-field label="Username" [required]="true">
           <input
             formControlName="username"
             type="text"
-            class="w-full px-4 py-2.5 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none transition text-sm text-slate-900"
+            class="form-input"
             placeholder="e.g. john.doe"
           />
           @if (form.get('username')?.touched && form.get('username')?.hasError('required')) {
-            <p class="text-rose-500 text-xs mt-1.5">Username is required</p>
+            <p class="form-error">Username is required</p>
           }
-        </div>
+        </app-form-field>
 
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5"
-            >Email <span class="text-rose-500">*</span></label
-          >
+        <app-form-field label="Email" [required]="true">
           <input
             formControlName="email"
             type="email"
-            class="w-full px-4 py-2.5 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none transition text-sm text-slate-900"
+            class="form-input"
             placeholder="john@company.com"
           />
           @if (form.get('email')?.touched) {
             @if (form.get('email')?.hasError('required')) {
-              <p class="text-rose-500 text-xs mt-1.5">Email is required</p>
+              <p class="form-error">Email is required</p>
             } @else if (form.get('email')?.hasError('email')) {
-              <p class="text-rose-500 text-xs mt-1.5">Invalid email format</p>
+              <p class="form-error">Invalid email format</p>
             }
           }
-        </div>
+        </app-form-field>
 
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5"
-            >First Name <span class="text-rose-500">*</span></label
-          >
-          <input
-            formControlName="firstName"
-            type="text"
-            class="w-full px-4 py-2.5 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none transition text-sm text-slate-900"
-            placeholder="John"
-          />
+        <app-form-field label="First Name" [required]="true">
+          <input formControlName="firstName" type="text" class="form-input" placeholder="John" />
           @if (form.get('firstName')?.touched && form.get('firstName')?.hasError('required')) {
-            <p class="text-rose-500 text-xs mt-1.5">First name is required</p>
+            <p class="form-error">First name is required</p>
           }
-        </div>
+        </app-form-field>
 
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5"
-            >Last Name <span class="text-rose-500">*</span></label
-          >
-          <input
-            formControlName="lastName"
-            type="text"
-            class="w-full px-4 py-2.5 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none transition text-sm text-slate-900"
-            placeholder="Doe"
-          />
+        <app-form-field label="Last Name" [required]="true">
+          <input formControlName="lastName" type="text" class="form-input" placeholder="Doe" />
           @if (form.get('lastName')?.touched && form.get('lastName')?.hasError('required')) {
-            <p class="text-rose-500 text-xs mt-1.5">Last name is required</p>
+            <p class="form-error">Last name is required</p>
           }
-        </div>
+        </app-form-field>
 
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5"
-            >Birth Date <span class="text-rose-500">*</span></label
-          >
-          <input
-            formControlName="birthDate"
-            type="date"
-            [max]="today"
-            class="w-full px-4 py-2.5 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none transition text-sm text-slate-900"
-          />
+        <app-form-field label="Birth Date" [required]="true">
+          <input formControlName="birthDate" type="date" [max]="today" class="form-input" />
           @if (form.get('birthDate')?.touched) {
             @if (form.get('birthDate')?.hasError('required')) {
-              <p class="text-rose-500 text-xs mt-1.5">Birth date is required</p>
+              <p class="form-error">Birth date is required</p>
             } @else if (form.get('birthDate')?.hasError('futureDate')) {
-              <p class="text-rose-500 text-xs mt-1.5">Birth date cannot be in the future</p>
+              <p class="form-error">Birth date cannot be in the future</p>
             }
           }
-        </div>
+        </app-form-field>
 
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5"
-            >Basic Salary (IDR) <span class="text-rose-500">*</span></label
-          >
+        <app-form-field label="Basic Salary (IDR)" [required]="true">
           <input
             type="text"
             [value]="salaryDisplay()"
             (input)="onSalaryInput($event)"
             inputmode="numeric"
-            class="w-full px-4 py-2.5 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none transition text-sm text-slate-900"
+            class="form-input"
             placeholder="5.000.000"
           />
           @if (form.get('basicSalary')?.touched) {
             @if (form.get('basicSalary')?.hasError('required')) {
-              <p class="text-rose-500 text-xs mt-1.5">Basic salary is required</p>
+              <p class="form-error">Basic salary is required</p>
             } @else if (form.get('basicSalary')?.hasError('min')) {
-              <p class="text-rose-500 text-xs mt-1.5">Salary must be at least 1</p>
+              <p class="form-error">Salary must be at least 1</p>
             }
           }
-        </div>
+        </app-form-field>
       </div>
     </div>
 
@@ -126,15 +94,13 @@
       <h2 class="text-sm font-semibold text-slate-700 uppercase tracking-wider mb-5">
         Employment Details
       </h2>
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5"
-            >Status <span class="text-rose-500">*</span></label
-          >
+        <app-form-field label="Status" [required]="true">
           <div class="relative">
             <select
               formControlName="status"
-              class="w-full px-4 py-2.5 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none transition text-sm text-slate-900 appearance-none pr-10 cursor-pointer"
+              class="form-input appearance-none pr-10 cursor-pointer"
             >
               <option value="">Select status...</option>
               <option value="Active">Active</option>
@@ -152,14 +118,11 @@
             </svg>
           </div>
           @if (form.get('status')?.touched && form.get('status')?.hasError('required')) {
-            <p class="text-rose-500 text-xs mt-1.5">Status is required</p>
+            <p class="form-error">Status is required</p>
           }
-        </div>
+        </app-form-field>
 
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5"
-            >Group <span class="text-rose-500">*</span></label
-          >
+        <app-form-field label="Group" [required]="true">
           <div class="relative">
             <button
               type="button"
@@ -180,6 +143,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
+
             @if (groupDropdownOpen()) {
               <div
                 class="absolute z-20 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-lg max-h-56 overflow-auto animate-slide-in"
@@ -207,23 +171,24 @@
             }
           </div>
           @if (form.get('group')?.touched && form.get('group')?.hasError('required')) {
-            <p class="text-rose-500 text-xs mt-1.5">Group is required</p>
+            <p class="form-error">Group is required</p>
           }
-        </div>
+        </app-form-field>
 
         <div class="md:col-span-2">
-          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5"
-            >Description <span class="text-rose-500">*</span></label
-          >
-          <textarea
-            formControlName="description"
-            rows="3"
-            class="w-full px-4 py-2.5 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none resize-none transition text-sm text-slate-900"
-            placeholder="Input description about this employee..."
-          ></textarea>
-          @if (form.get('description')?.touched && form.get('description')?.hasError('required')) {
-            <p class="text-rose-500 text-xs mt-1.5">Description is required</p>
-          }
+          <app-form-field label="Description" [required]="true">
+            <textarea
+              formControlName="description"
+              rows="3"
+              class="form-input resize-none"
+              placeholder="Input description about this employee..."
+            ></textarea>
+            @if (
+              form.get('description')?.touched && form.get('description')?.hasError('required')
+            ) {
+              <p class="form-error">Description is required</p>
+            }
+          </app-form-field>
         </div>
       </div>
     </div>

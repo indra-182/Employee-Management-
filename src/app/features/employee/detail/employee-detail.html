@@ -22,20 +22,7 @@
         <h2 class="text-lg font-bold text-slate-900">{{ emp.firstName }} {{ emp.lastName }}</h2>
         <p class="text-slate-500 text-sm">&#64;{{ emp.username }}</p>
         <div class="flex items-center gap-3 mt-2">
-          <span
-            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold"
-            [class.bg-emerald-50]="emp.status === 'Active'"
-            [class.text-emerald-700]="emp.status === 'Active'"
-            [class.bg-slate-100]="emp.status !== 'Active'"
-            [class.text-slate-500]="emp.status !== 'Active'"
-          >
-            <span
-              class="w-1.5 h-1.5 rounded-full"
-              [class.bg-emerald-500]="emp.status === 'Active'"
-              [class.bg-slate-400]="emp.status !== 'Active'"
-            ></span>
-            {{ emp.status }}
-          </span>
+          <app-status-badge [status]="emp.status" />
           <span class="text-xs font-medium text-slate-600 bg-slate-100 px-2.5 py-1 rounded-lg">{{
             emp.group
           }}</span>

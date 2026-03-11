@@ -4,7 +4,7 @@ import { authGuard } from '@app/core/guards/auth.guard';
 export const routes: Routes = [
   {
     path: 'login',
-    loadComponent: () => import('@app/features/login/login').then((p) => p.Login),
+    loadComponent: () => import('@app/features/login/login').then((m) => m.Login),
   },
   {
     path: 'employees',
@@ -13,7 +13,7 @@ export const routes: Routes = [
       {
         path: '',
         loadComponent: () =>
-          import('@/app/features/employee/list/employee-list').then((p) => p.EmployeeList),
+          import('@app/features/employee/list/employee-list').then((m) => m.EmployeeList),
       },
       {
         path: 'add',
@@ -23,7 +23,7 @@ export const routes: Routes = [
       {
         path: ':username',
         loadComponent: () =>
-          import('@/app/features/employee/detail/employee-detail').then((p) => p.EmployeeDetail),
+          import('@app/features/employee/detail/employee-detail').then((m) => m.EmployeeDetail),
       },
     ],
   },
