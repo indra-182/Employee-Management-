@@ -23,7 +23,7 @@ export class EmployeeAdd {
     lastName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     birthDate: ['', [Validators.required, pastDateValidator]],
-    basicSalary: [null as number | null, [Validators.required, Validators.min(0)]],
+    basicSalary: [null as number | null, [Validators.required, Validators.min(1)]],
     status: ['', Validators.required],
     group: ['', Validators.required],
     description: ['', Validators.required],
