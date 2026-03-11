@@ -1,20 +1,10 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import {
-  AbstractControl,
-  ReactiveFormsModule,
-  FormBuilder,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { GROUPS } from '@app/utils/constants';
 import { EmployeeService } from '@app/services/employee/employee.service';
 import { ToastrService } from '@app/services/toastr/toastr.service';
-
-function pastDateValidator(control: AbstractControl): ValidationErrors | null {
-  if (!control.value) return null;
-  return new Date(control.value) > new Date() ? { futureDate: true } : null;
-}
+import { pastDateValidator } from '@/app/utils/functions';
 
 @Component({
   selector: 'app-employee-add',

@@ -2,6 +2,11 @@ import { Injectable, signal } from '@angular/core';
 import { Employees } from '@app/shared/models/employees';
 import { FIRST_NAMES, GROUPS, LAST_NAMES } from '@app/utils/constants';
 
+interface SearchState {
+  name: string;
+  status: string;
+}
+
 function generateEmployees(): Employees[] {
   const employees: Employees[] = [];
   for (let i = 0; i < 100; i++) {
@@ -20,11 +25,6 @@ function generateEmployees(): Employees[] {
     });
   }
   return employees;
-}
-
-export interface SearchState {
-  name: string;
-  status: string;
 }
 
 @Injectable({ providedIn: 'root' })
