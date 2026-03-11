@@ -104,11 +104,12 @@
             >Basic Salary (IDR) <span class="text-rose-500">*</span></label
           >
           <input
-            formControlName="basicSalary"
-            type="number"
-            min="0"
+            type="text"
+            [value]="salaryDisplay()"
+            (input)="onSalaryInput($event)"
+            inputmode="numeric"
             class="w-full px-4 py-2.5 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-violet-500 focus:border-transparent outline-none transition text-sm text-slate-900"
-            placeholder="5000000"
+            placeholder="5.000.000"
           />
           @if (form.get('basicSalary')?.touched) {
             @if (form.get('basicSalary')?.hasError('required')) {
@@ -243,3 +244,13 @@
     </div>
   </form>
 </div>
+
+@if (showConfirm()) {
+  <app-confirm-dialog
+    title="Confirm Add Employee"
+    message="Are you sure you want to add this employee?"
+    confirmText="Yes, Add"
+    (confirmed)="confirmSave()"
+    (cancelled)="cancelSave()"
+  />
+}

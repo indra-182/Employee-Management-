@@ -5,10 +5,11 @@ import { GROUPS } from '@app/utils/constants';
 import { EmployeeService } from '@app/services/employee/employee.service';
 import { ToastrService } from '@app/services/toastr/toastr.service';
 import { pastDateValidator } from '@/app/utils/functions';
+import { ConfirmDialog } from '@app/shared/components/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-employee-add',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, ConfirmDialog],
   templateUrl: './employee-add.html',
 })
 export class EmployeeAdd {
@@ -17,13 +18,13 @@ export class EmployeeAdd {
   private employeeService = inject(EmployeeService);
   private toastr = inject(ToastrService);
 
-  form = this.fb.group({
+  form = this.fb.nonNullable.group({
     username: ['', Validators.required],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     birthDate: ['', [Validators.required, pastDateValidator]],
-    basicSalary: [null as number | null, [Validators.required, Validators.min(1)]],
+    basicSalary: [0, [Validators.required, Validators.min(1)]],
     status: ['', Validators.required],
     group: ['', Validators.required],
     description: ['', Validators.required],
@@ -31,6 +32,7 @@ export class EmployeeAdd {
 
   groupSearch = signal('');
   groupDropdownOpen = signal(false);
+  showConfirm = signal(false);
 
   filteredGroups = computed(() => {
     const query = this.groupSearch().toLowerCase();
@@ -38,6 +40,16 @@ export class EmployeeAdd {
   });
 
   today = new Date().toISOString().split('T')[0];
+
+  salaryDisplay = signal('');
+
+  onSalaryInput(event: Event): void {
+    const raw = (event.target as HTMLInputElement).value.replace(/\D/g, '');
+    const num = raw ? parseInt(raw, 10) : 0;
+    this.form.patchValue({ basicSalary: num });
+    this.form.controls.basicSalary.markAsTouched();
+    this.salaryDisplay.set(num ? new Intl.NumberFormat('id-ID').format(num) : '');
+  }
 
   onGroupSearch(event: Event): void {
     this.groupSearch.set((event.target as HTMLInputElement).value);
@@ -58,21 +70,29 @@ export class EmployeeAdd {
       this.form.markAllAsTouched();
       return;
     }
-    const confirmed = confirm('Are you sure you want to add this employee?');
-    if (!confirmed) return;
-    const v = this.form.value;
+    this.showConfirm.set(true);
+  }
+
+  confirmSave(): void {
+    this.showConfirm.set(false);
+    const v = this.form.getRawValue();
     this.employeeService.add({
-      username: v.username!,
-      firstName: v.firstName!,
-      lastName: v.lastName!,
-      email: v.email!,
-      birthDate: new Date(v.birthDate!),
-      basicSalary: v.basicSalary!,
-      status: v.status!,
-      group: v.group!,
-      description: v.description!,
+      username: v.username,
+      firstName: v.firstName,
+      lastName: v.lastName,
+      email: v.email,
+      birthDate: new Date(v.birthDate),
+      basicSalary: v.basicSalary,
+      status: v.status,
+      group: v.group,
+      description: v.description,
     });
+
     this.toastr.success('Employee added successfully');
     this.router.navigate(['/employees']);
+  }
+
+  cancelSave(): void {
+    this.showConfirm.set(false);
   }
 }
