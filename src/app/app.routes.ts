@@ -15,6 +15,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('@app/features/employees/list/employees-list').then((p) => p.EmployeeList),
       },
+      {
+        path: ':username',
+        loadComponent: () =>
+          import('@app/features/employees/detail/employees-detail').then((p) => p.EmployeeDetail),
+      },
     ],
   },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
